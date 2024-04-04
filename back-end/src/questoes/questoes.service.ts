@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateQuestoeDto } from './dto/create-questoe.dto';
-import { UpdateQuestoeDto } from './dto/update-questoe.dto';
+import { CreateQuestoesDto } from './dto/create-questoes.dto';
+import { UpdateQuestoesDto } from './dto/update-questoes.dto';
+import { Questoes } from './entities/questoes.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class QuestoesService {
-  create(createQuestoeDto: CreateQuestoeDto) {
-    return 'This action adds a new questoe';
+  constructor(
+    @InjectRepository(Questoes)
+    private questoesRepository: Repository<Questoes>,
+  ) {}
+
+  findAll(): Promise<Questoes[]> {
+    return this.questoesRepository.find();
   }
 
-  findAll() {
-    return `This action returns all questoes`;
+  findOne(id: number): Promise<Questoes | null> {
+    return this.questoesRepository.findOneBy({ id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} questoe`;
+  async remove(id: number): Promise<void> {
+    await this.questoesRepository.delete(id);
   }
 
-  update(id: number, updateQuestoeDto: UpdateQuestoeDto) {
-    return `This action updates a #${id} questoe`;
+  async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
+    return this.questoesRepository.save(createQuestoesDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} questoe`;
+  async update(id: number, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
+    await this.questoesRepository.update(id, updateQuestoesDto);
   }
 }
