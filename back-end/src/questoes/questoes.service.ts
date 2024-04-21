@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuestoesDto } from './dto/create-questoes.dto';
 import { UpdateQuestoesDto } from './dto/update-questoes.dto';
 import { Questoes } from './entities/questoes.entity';
@@ -20,8 +20,12 @@ export class QuestoesService {
     return this.questoesRepository.findOneBy({ id });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.questoesRepository.delete(id);
+  async remove(id: number): Promise<boolean> {
+    const result = await this.questoesRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Questão com ID ${id} não encontrada`);
+    }
+    return true;
   }
 
   async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
