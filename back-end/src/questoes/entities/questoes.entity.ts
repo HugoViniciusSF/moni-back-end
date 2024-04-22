@@ -2,9 +2,11 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Questoes {
+  
     @PrimaryGeneratedColumn()
     id: number;
-      @Column()
+
+    @Column()
     nome: string;
   
     @Column()
