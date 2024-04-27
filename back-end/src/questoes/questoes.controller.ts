@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { QuestoesService } from './questoes.service';
 import { CreateQuestoesDto } from './dto/create-questoes.dto';
 import { UpdateQuestoesDto } from './dto/update-questoes.dto';
@@ -18,8 +18,13 @@ export class QuestoesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questoesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const result = await this.questoesService.findOne(+id);
+      if(!result){
+        throw new HttpException(`Questão ${id} não encontrada`,
+        HttpStatus.NOT_FOUND);
+      }
+    return result;
   }
 
   @Patch(':id')

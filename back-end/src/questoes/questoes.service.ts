@@ -18,12 +18,7 @@ export class QuestoesService {
   }
 
   async findOne(id: number): Promise<Questoes | null> {
-    const result = await this.questoesRepository.findOneBy({ id });
-      if(!result){
-        throw new HttpException(`Questão ${id} não encontrada`,
-        HttpStatus.NOT_FOUND);
-      }
-    return result;
+    return this.questoesRepository.findOneBy({ id });
   }
 
   async remove(id: number): Promise<void> {
