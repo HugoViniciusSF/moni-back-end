@@ -29,12 +29,7 @@ export class QuestoesService {
   }
 
   async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
-    try {
-      return await this.questoesRepository.save(createQuestoesDto);
-    } catch (error) {
-      throw new HttpException('Erro ao criar a questão.',
-       HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return await this.questoesRepository.save(createQuestoesDto);
   }
 
   async update(id: number, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
