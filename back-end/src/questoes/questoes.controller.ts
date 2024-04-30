@@ -9,7 +9,13 @@ export class QuestoesController {
 
   @Post()
   create(@Body() createQuestoesDto: CreateQuestoesDto) {
-    return this.questoesService.create(createQuestoesDto);
+    try{
+      return this.questoesService.create(createQuestoesDto);
+    }
+    catch(error){
+      throw new HttpException('Erro ao tentar criar a questão',
+       HttpStatus.INTERNAL_SERVER_ERROR);
+    }	
   }
 
   @Get()

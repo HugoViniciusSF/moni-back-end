@@ -1,4 +1,4 @@
 {
-    "sqltools.useNodeRuntime": true,
+    "sqltools.useNodeRuntime": false,
     "sqltools.connections": []
 }
