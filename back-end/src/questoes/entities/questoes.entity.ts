@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-interface QuestoesInterface {
+export interface QuestoesInterface {
     id: number;
     nome: string;
     fotoURL: string;
