@@ -40,6 +40,6 @@ export class QuestoesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questoesService.remove(+id);
+    return this.questoesService.delete(+id);
   }
 }
