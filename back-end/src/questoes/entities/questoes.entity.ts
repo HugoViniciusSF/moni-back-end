@@ -1,7 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+interface QuestoesInterface {
+    id: number;
+    nome: string;
+    fotoURL: string;
+    descricao: string;
+    respondido: boolean;
+    prioridade: boolean;
+}
+
 @Entity()
-export class Questoes {
+export class Questoes implements QuestoesInterface{
   
     @PrimaryGeneratedColumn()
     id: number;
