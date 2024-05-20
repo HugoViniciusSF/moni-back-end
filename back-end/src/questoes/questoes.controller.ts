@@ -25,7 +25,7 @@ export class QuestoesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const result = await this.questoesService.findOne(+id);
+    const result = await this.questoesService.findOne(id);
       if(!result){
         throw new HttpException(`Questão ${id} não encontrada`,
         HttpStatus.NOT_FOUND);
@@ -35,11 +35,11 @@ export class QuestoesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateQuestoeDto: UpdateQuestoesDto) {
-    return this.questoesService.update(+id, updateQuestoeDto);
+    return this.questoesService.update(id, updateQuestoeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questoesService.delete(+id);
+    return this.questoesService.delete(id);
   }
 }

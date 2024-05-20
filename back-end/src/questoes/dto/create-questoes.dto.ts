@@ -15,5 +15,4 @@ export class CreateQuestoesDto {
 
     @IsBoolean()
     readonly prioridade: boolean;
-
 }

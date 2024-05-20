@@ -7,10 +7,10 @@ import { resourceLimits } from 'worker_threads';
 
 export interface QuestoesServiceInterface {
   findAll(): Promise<Questoes[]>
-  findOne(id: number): Promise<Questoes | null>
-  delete(id: number): Promise<void>
+  findOne(id: string): Promise<Questoes | null>
+  delete(id: string): Promise<void>
   create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes>
-  update(id: number, updateQuestoesDto: UpdateQuestoesDto): Promise<void>
+  update(id: string, updateQuestoesDto: UpdateQuestoesDto): Promise<void>
 }
 
 @Injectable()
@@ -23,7 +23,7 @@ export class QuestoesService implements QuestoesServiceInterface{
     return this.questoesRepository.findAll();
   }
 
-  async findOne(id: number): Promise<Questoes | null> {
+  async findOne(id: string): Promise<Questoes | null> {
     return this.questoesRepository.findOneBy({ id });
   }
   
@@ -31,7 +31,7 @@ export class QuestoesService implements QuestoesServiceInterface{
     return await this.questoesRepository.create(createQuestoesDto);
   }
   
-  async update(id: number, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
+  async update(id: string, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
     try{
       const result = await this.questoesRepository.update(id, updateQuestoesDto);
       console.log(result);
@@ -45,7 +45,7 @@ export class QuestoesService implements QuestoesServiceInterface{
     }
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     try{
       await this.questoesRepository.delete(id); 
     }

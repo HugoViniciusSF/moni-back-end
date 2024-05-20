@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 export interface QuestoesInterface {
-    id: number;
+    id: string;
     nome: string;
     fotoURL: string;
     descricao: string;
@@ -12,8 +12,8 @@ export interface QuestoesInterface {
 @Entity()
 export class Questoes implements QuestoesInterface{
   
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn()
+    id: string;
 
     @Column()
     nome: string;
