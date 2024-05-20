@@ -29,4 +29,5 @@ export class Questoes implements QuestoesInterface{
 
     @Column({ default: false })
     prioridade: boolean;
+
 }
