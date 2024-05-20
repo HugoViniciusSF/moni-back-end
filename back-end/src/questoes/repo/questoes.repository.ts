@@ -37,6 +37,6 @@ export class QuestoesRepository implements QuestoesRepositoryInterface {
     }
 
     async delete(id: string): Promise<void> {
-        await this.questoesRepository.delete(id);
+        await this.questoesRepository.softDelete(id);
     }
 }
