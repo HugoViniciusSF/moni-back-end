@@ -1,1 +1,1 @@
-DELETE FROM questao
+DELETE FROM questoes
