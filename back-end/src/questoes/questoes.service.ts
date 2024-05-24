@@ -1,10 +1,9 @@
-import { HttpException, Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
+import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { CreateQuestoesDto } from './dto/create-questoes.dto';
 import { UpdateQuestoesDto } from './dto/update-questoes.dto';
 import { Questoes } from './entities/questoes.entity';
 import { QuestoesRepository } from './repo/questoes.repository';
-import { resourceLimits } from 'worker_threads';
-
+import { BadRequestException } from '@nestjs/common';
 export interface QuestoesServiceInterface {
   findAll(): Promise<Questoes[]>
   findOne(id: string): Promise<Questoes | null>
@@ -28,6 +27,9 @@ export class QuestoesService implements QuestoesServiceInterface{
   }
   
   async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
+
+    createQuestoesDto = validateInput(createQuestoesDto);
+
     return await this.questoesRepository.create(createQuestoesDto);
   }
   
@@ -54,4 +56,31 @@ export class QuestoesService implements QuestoesServiceInterface{
       HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+}
+
+function isValidHttpsUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === 'https:';
+  } catch (e) {
+    return false;
+  }
+}
+
+function validateInput(createQuestoesDto: CreateQuestoesDto): CreateQuestoesDto {
+  // Exemplo de validação simples
+  if (!createQuestoesDto.nome || createQuestoesDto.nome.trim().length === 0) {
+    throw new BadRequestException('O nome é obrigatório.');
+  }
+
+  if (!createQuestoesDto.descricao || createQuestoesDto.descricao.trim().length === 0) {
+    throw new BadRequestException('O conteúdo é obrigatório.');
+  }
+  if (!createQuestoesDto.fotoURL || !isValidHttpsUrl(createQuestoesDto.fotoURL)) {
+    throw new BadRequestException('A URL da foto é inválida');
+  }
+
+  return { ...createQuestoesDto,
+  };
+
 }
