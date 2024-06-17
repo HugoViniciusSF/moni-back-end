@@ -34,8 +34,8 @@ export class QuestoesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestoeDto: UpdateQuestoesDto) {
-    return this.questoesService.update(id, updateQuestoeDto);
+  update(@Param('id') id: string, @Body() updateQuestoesDto: UpdateQuestoesDto) {
+    return this.questoesService.update(id, updateQuestoesDto);
   }
 
   @Delete(':id')
