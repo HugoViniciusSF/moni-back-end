@@ -8,6 +8,13 @@ import { Jogos } from './jogos/entities/jogos.entity';
 import { Reuniao } from './reuniao/entities/reuniao.entity';
 import { JogosModule } from './jogos/jogos.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
+import { InfoEntity } from './info/info.entity';
+import { Reunioes } from './reunioes/entities/reunioes.entity';
+import { JogosModule } from './jogos/jogos.module';
+import { ReunioesModule } from './reunioes/reunioes.module';
+import { HttpModule } from '@nestjs/axios';
+import { InfoModule } from './info/info.module';
+
 @Module({
   imports: [
     QuestoesModule,
