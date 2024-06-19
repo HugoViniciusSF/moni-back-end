@@ -13,7 +13,7 @@ export class Jogos implements JogosInterface{
     
     @PrimaryColumn()
     id: string;
-
+    
     @Column()
     nome: string;
     
@@ -28,4 +28,5 @@ export class Jogos implements JogosInterface{
     
     @Column()
     plataforma: string;
+
 }

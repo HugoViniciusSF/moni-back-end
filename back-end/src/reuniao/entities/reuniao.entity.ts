@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
-export interface ReunioesInterface {
+export interface ReuniaoInterface {
     id: string;
     nome: string;
     fotoURL: string;
@@ -11,7 +11,7 @@ export interface ReunioesInterface {
 }
 
 
-export class Reunioes implements ReunioesInterface{
+export class Reuniao implements ReuniaoInterface{
     @PrimaryColumn()
     id: string;
 
@@ -23,10 +23,10 @@ export class Reunioes implements ReunioesInterface{
 
     @Column()
     descricao: string;
-    
+
     @Column()
     local: string;
-    
+
     @Column()
     presenca: string;
 
@@ -34,4 +34,3 @@ export class Reunioes implements ReunioesInterface{
     certificado: boolean;
 
 }
-

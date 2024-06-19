@@ -1,9 +1,9 @@
 import { IsString, IsBoolean, IsNotEmpty } from "class-validator";
-export class CreateReunioesDto {
+export class CreateReuniaoDto {
     @IsNotEmpty()
     @IsString()
     readonly nome: string;
-    
+
     @IsNotEmpty()
     @IsString()
     readonly fotoURL: string;

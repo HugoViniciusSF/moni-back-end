@@ -5,16 +5,21 @@ import { QuestoesModule } from './questoes/questoes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Questoes } from './questoes/entities/questoes.entity';
 import { Jogos } from './jogos/entities/jogos.entity';
-import { Reunioes } from './reunioes/entities/reunioes.entity';
+import { Reuniao } from './reuniao/entities/reuniao.entity';
 import { JogosModule } from './jogos/jogos.module';
-import { ReunioesModule } from './reunioes/reunioes.module';
+import { ReuniaoModule } from './reuniao/reuniao.module';
 @Module({
-  imports: [QuestoesModule, JogosModule, ReunioesModule,TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'db/sql',
-    synchronize: true,
-    entities: [Questoes, Jogos, Reunioes],
-  }),],
+  imports: [
+    QuestoesModule,
+    JogosModule,
+    ReuniaoModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'db/sql',
+      synchronize: true,
+      entities: [Questoes, Jogos, Reuniao],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
