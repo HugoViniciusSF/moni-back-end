@@ -1,16 +1,16 @@
 import { Injectable, Provider } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-import { InfoScrapingFacade } from "../info.scraping.facade";
+import { InfoGatheringFacade } from "../info.gathering.facade";
 import { JogoData } from "../jogo.entity";
 import * as qs from 'qs';
 
 @Injectable()
-export class InfoScrapingFacadeJogos implements InfoScrapingFacade {
+export class InfoGatheringFacadeJogos implements InfoGatheringFacade {
   private readonly baseUrl = "https://api.igdb.com/v4";
   private readonly clientId = process.env.IGDB_CLIENT_ID;
   private readonly clientSecret = process.env.IGDB_CLIENT_SECRET;
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   async getAccessToken(): Promise<string> {
     const data = {
@@ -81,7 +81,7 @@ export class InfoScrapingFacadeJogos implements InfoScrapingFacade {
   }
 }
 
-export const InfoScrapingFacadeProviderJogos: Provider = {
-  provide: InfoScrapingFacade,
-  useClass: InfoScrapingFacadeJogos,
+export const InfoGatheringFacadeProviderJogos: Provider = {
+  provide: InfoGatheringFacade,
+  useClass: InfoGatheringFacadeJogos,
 };

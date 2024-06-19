@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { InfoController } from './info.controller';
 import { InfoServiceProvider } from './info.service';
 import { HttpModule } from '@nestjs/axios';
-import { InfoScrapingFacadeProviderJogos } from './providers/info.scraping.facade.jogos';
+import { InfoGatheringFacadeProviderJogos } from './providers/info.gathering.facade.jogos';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
   controllers: [InfoController],
   providers: [
     InfoServiceProvider,
-    InfoScrapingFacadeProviderJogos,
+    InfoGatheringFacadeProviderJogos,
   ],
 })
-export class InfoModule {}
+export class InfoModule { }
