@@ -6,12 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Questoes } from './questoes/entities/questoes.entity';
 import { Jogos } from './jogos/entities/jogos.entity';
 import { Reuniao } from './reuniao/entities/reuniao.entity';
-import { JogosModule } from './jogos/jogos.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
-import { InfoEntity } from './info/info.entity';
-import { Reunioes } from './reunioes/entities/reunioes.entity';
 import { JogosModule } from './jogos/jogos.module';
-import { ReunioesModule } from './reunioes/reunioes.module';
+import { InfoEntity } from './info/info.entity';
 import { HttpModule } from '@nestjs/axios';
 import { InfoModule } from './info/info.module';
 
@@ -20,12 +17,14 @@ import { InfoModule } from './info/info.module';
     QuestoesModule,
     JogosModule,
     ReuniaoModule,
+    InfoModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db/sql',
       synchronize: true,
-      entities: [Questoes, Jogos, Reuniao],
+      entities: [Questoes, Jogos, Reuniao, InfoEntity],
     }),
+    HttpModule,
   ],
   controllers: [AppController],
   providers: [AppService],
