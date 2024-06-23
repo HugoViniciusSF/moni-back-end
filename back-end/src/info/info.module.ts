@@ -14,8 +14,8 @@ import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.
   controllers: [InfoController],
   providers: [
     InfoServiceProvider,
-    InfoGatheringFacadeProviderQuestoes,
-    //InfoGatheringFacadeProviderJogos,
+    //InfoGatheringFacadeProviderQuestoes,
+    InfoGatheringFacadeProviderJogos,
   ],
 })
 export class InfoModule { }

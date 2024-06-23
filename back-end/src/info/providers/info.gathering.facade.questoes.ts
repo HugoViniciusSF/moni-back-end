@@ -1,7 +1,7 @@
 import { Injectable, Provider } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { InfoGatheringFacade } from "../info.gathering.facade";
-import { QuestaoData, QuestaoDataComTopico } from "../questao.entity";
+import { QuestaoData } from "../questao.entity";
 
 @Injectable()
 export class InfoGatheringFacadeQuestoes implements InfoGatheringFacade {
@@ -10,8 +10,8 @@ export class InfoGatheringFacadeQuestoes implements InfoGatheringFacade {
 
   constructor(private readonly httpService: HttpService) {}
 
-  async getInfo(): Promise<QuestaoData[]> {
-    const questoes: QuestaoDataComTopico[] = [];
+  async getInfo(topico: string): Promise<QuestaoData[]> {
+    const questoes: QuestaoData[] = [];
 
     try {
       const response = await this.httpService.axiosRef.get(
@@ -23,7 +23,7 @@ export class InfoGatheringFacadeQuestoes implements InfoGatheringFacade {
             sort: "votes",
             pagesize: 10,
             filter: "!9_bDDxJY5",
-            q: "typescript",
+            q: topico,
           },
         }
       );
@@ -38,9 +38,8 @@ export class InfoGatheringFacadeQuestoes implements InfoGatheringFacade {
         const descricao = question.title;
         const respondido = question.is_answered;
         const prioridade = question.score >= 10;
-        const topico = "typescript";
 
-        questoes.push({ id, nome, imagemURL, descricao, respondido, prioridade, topico });
+        questoes.push({ id, nome, imagemURL, descricao, respondido, prioridade });
       });
 
       console.log("Questões array:", questoes);

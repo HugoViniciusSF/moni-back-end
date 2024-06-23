@@ -32,16 +32,24 @@ export class InfoGatheringFacadeJogos implements InfoGatheringFacade {
     return response.data.access_token;
   }
 
-  async getInfo(): Promise<JogoData[]> {
+  async getInfo(query: string): Promise<JogoData[]> {
     const jogos: JogoData[] = [];
 
     try {
       const accessToken = await this.getAccessToken();
       console.log("Access Token:", accessToken);
 
+      let apiQuery = '';
+
+      if (!isNaN(Number(query))) {
+        apiQuery = `fields id, name, summary, cover.url, genres.name, platforms.name; where id = ${query}; limit 10;`;
+      } else {
+        apiQuery = `fields id, name, summary, cover.url, genres.name, platforms.name; where name ~ *"${query}"* | genres.name ~ *"${query}"* | platforms.name ~ *"${query}"*; limit 10;`;
+      }
+
       const response = await this.httpService.axiosRef.post(
         `${this.baseUrl}/games`,
-        `fields id, name, summary, cover.url, genres.name, platforms.name; limit 10;`,
+        apiQuery,
         {
           headers: {
             "Client-ID": this.clientId,
@@ -66,13 +74,7 @@ export class InfoGatheringFacadeJogos implements InfoGatheringFacade {
 
       console.log("Jogos array:", jogos);
 
-      if (jogos.length > 0) {
-        const jogoAleatorio = jogos[Math.floor(Math.random() * jogos.length)];
-        console.log("Jogo aleatório:", jogoAleatorio);
-        return [jogoAleatorio];
-      } else {
-        console.log("Nenhum jogo encontrado.");
-      }
+      return jogos;
     } catch (error) {
       console.log("Error:", error.response.data);
     }
