@@ -4,6 +4,7 @@ import { InfoServiceProvider } from './info.service';
 import { HttpModule } from '@nestjs/axios';
 import { InfoGatheringFacadeProviderJogos } from './providers/info.gathering.facade.jogos';
 import { ConfigModule } from '@nestjs/config';
+import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.facade.questoes';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ConfigModule } from '@nestjs/config';
   controllers: [InfoController],
   providers: [
     InfoServiceProvider,
-    InfoGatheringFacadeProviderJogos,
+    InfoGatheringFacadeProviderQuestoes,
+    //InfoGatheringFacadeProviderJogos,
   ],
 })
 export class InfoModule { }
