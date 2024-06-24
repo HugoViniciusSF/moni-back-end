@@ -1,6 +1,6 @@
-import { InfoData } from './info.entity';
+import { InfoEntity } from './info.entity';
 
-export interface JogoData extends InfoData {
+export interface JogoData extends InfoEntity {
     generos: string | null;
     plataformas: string | null;
 }

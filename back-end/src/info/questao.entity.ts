@@ -1,6 +1,6 @@
-import { InfoData } from './info.entity';
+import { InfoEntity } from './info.entity';
 
-export interface QuestaoData extends InfoData {
+export interface QuestaoData extends InfoEntity {
     respondido: boolean;
     prioridade: boolean;
 }

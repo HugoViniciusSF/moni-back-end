@@ -1,5 +1,5 @@
-import { InfoData } from './info.entity';
+import { InfoEntity } from './info.entity';
 
-export interface NoticiaData extends InfoData {
-  
+export interface NoticiaData extends InfoEntity {
+
 }
