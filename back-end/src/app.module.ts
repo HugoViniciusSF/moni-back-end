@@ -8,7 +8,7 @@ import { Jogos } from './jogos/entities/jogos.entity';
 import { Reuniao } from './reuniao/entities/reuniao.entity';
 import { ReuniaoModule } from './reuniao/reuniao.module';
 import { JogosModule } from './jogos/jogos.module';
-import { InfoEntity } from './info/info.entity';
+import { InfoData } from './info/info.entity';
 import { HttpModule } from '@nestjs/axios';
 import { InfoModule } from './info/info.module';
 
@@ -22,11 +22,11 @@ import { InfoModule } from './info/info.module';
       type: 'sqlite',
       database: 'db/sql',
       synchronize: true,
-      entities: [Questoes, Jogos, Reuniao, InfoEntity],
+      entities: [Questoes, Jogos, Reuniao, InfoData],
     }),
     HttpModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

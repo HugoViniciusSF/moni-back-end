@@ -1,9 +1,9 @@
 import { Inject, Injectable, Provider } from '@nestjs/common';
-import { InfoEntity } from './info.entity';
+import { InfoData } from './info.entity';
 import { InfoGatheringFacade } from './info.gathering.facade';
 
 export abstract class InfoService {
-  abstract getInfo(topico: string): Promise<InfoEntity[]>;
+  abstract getInfo(topico: string): Promise<InfoData[]>;
 }
 
 @Injectable()
@@ -13,7 +13,7 @@ export class InfoServiceImpl implements InfoService {
     private readonly infoScrapingFacade: InfoGatheringFacade,
   ) { }
 
-  async getInfo(topico: string): Promise<InfoEntity[]> {
+  async getInfo(topico: string): Promise<InfoData[]> {
     const output = await this.infoScrapingFacade.getInfo(topico);
     return output;
   }

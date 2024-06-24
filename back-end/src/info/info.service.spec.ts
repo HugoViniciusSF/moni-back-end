@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InfoService } from './info.service';
-import { InfoEntity } from './info.entity';
+import { InfoData } from './info.entity';
 
 class InfoServiceMock implements InfoService {
-  async getInfo(): Promise<InfoEntity[]> {
+  async getInfo(): Promise<InfoData[]> {
     return [];
   }
 }
