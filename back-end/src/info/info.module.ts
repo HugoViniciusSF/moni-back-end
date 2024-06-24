@@ -16,8 +16,8 @@ import { InfoGatheringFacadeProviderNoticias } from './providers/info.gathering.
   providers: [
     InfoServiceProvider,
     //InfoGatheringFacadeProviderQuestoes,
-    //InfoGatheringFacadeProviderJogos,
-    InfoGatheringFacadeProviderNoticias,
+    InfoGatheringFacadeProviderJogos,
+    //InfoGatheringFacadeProviderNoticias,
   ],
 })
 export class InfoModule { }
