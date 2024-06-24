@@ -1,32 +1,11 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { BaseEntity } from '../../entities/base.entity';
 
-export interface JogosInterface {
-    id: string;
-    nome: string;
-    fotoURL: string;
-    descricao: string;
-    genero: string;
-    plataforma: string;
-}
 @Entity()
-export class Jogos implements JogosInterface{
-    
-    @PrimaryColumn()
-    id: string;
-    
-    @Column()
-    nome: string;
-    
-    @Column()
-    fotoURL: string;
+export class Jogos extends BaseEntity {
+  @Column()
+  genero: string;
 
-    @Column()
-    descricao: string;
-
-    @Column()
-    genero: string;
-    
-    @Column()
-    plataforma: string;
-
+  @Column()
+  plataforma: string;
 }

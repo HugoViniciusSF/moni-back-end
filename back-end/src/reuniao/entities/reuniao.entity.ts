@@ -1,18 +1,9 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from '../../entities/base.entity';
 
-export interface ReuniaoInterface {
-    id: string;
-    nome: string;
-    fotoURL: string;
-    descricao: string;
-    local: string;
-    presenca: string;
-    certificado: boolean;
-}
-
-
-export class Reuniao implements ReuniaoInterface{
-    @PrimaryColumn()
+@Entity()
+export class Reuniao extends BaseEntity {
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
@@ -32,5 +23,4 @@ export class Reuniao implements ReuniaoInterface{
 
     @Column({ default: false })
     certificado: boolean;
-
 }

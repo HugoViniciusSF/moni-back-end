@@ -1,33 +1,11 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
-
-export interface QuestoesInterface {
-    id: string;
-    nome: string;
-    fotoURL: string;
-    descricao: string;
-    respondido: boolean;
-    prioridade: boolean;
-}
+import { Entity, Column } from 'typeorm';
+import { BaseEntity } from '../../entities/base.entity';
 
 @Entity()
-export class Questoes implements QuestoesInterface{
-  
-    @PrimaryColumn()
-    id: string;
+export class Questoes extends BaseEntity {
+  @Column()
+  respondido: boolean;
 
-    @Column()
-    nome: string;
-  
-    @Column()
-    fotoURL: string;
-
-    @Column()
-    descricao: string;
-
-    @Column({ default: false })
-    respondido: boolean;
-
-    @Column({ default: false })
-    prioridade: boolean;
-
+  @Column()
+  prioridade: boolean;
 }
