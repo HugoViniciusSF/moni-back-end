@@ -77,9 +77,8 @@ export class InfoGatheringFacadeJogos implements InfoGatheringFacade {
       return jogos;
     } catch (error) {
       console.log("Error:", error.response.data);
+      throw error;
     }
-
-    return jogos;
   }
 }
 
