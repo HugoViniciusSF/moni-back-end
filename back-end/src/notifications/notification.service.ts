@@ -1,15 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
+import { Injectable, Inject } from '@nestjs/common';
+import { NotificationStrategy } from './notification.strategy';
 
 @Injectable()
 export class NotificationService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(@Inject('NotificationStrategy') private readonly emailStrategy: NotificationStrategy) {}
 
-  async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    await this.mailerService.sendMail({
-      to,
-      subject,
-      text: body,
-    });
+  async sendNotification(to: string, subject: string, body: string): Promise<void> {
+    await this.emailStrategy.send(to, subject, body);
   }
 }
