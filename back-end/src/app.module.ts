@@ -11,6 +11,9 @@ import { JogosModule } from './jogos/jogos.module';
 import { InfoData } from './info/info.entity';
 import { HttpModule } from '@nestjs/axios';
 import { InfoModule } from './info/info.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { NotificationModule } from './notifications/notification.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -25,8 +28,25 @@ import { InfoModule } from './info/info.module';
       entities: [Questoes, Jogos, Reuniao, InfoData],
     }),
     HttpModule,
+    ConfigModule.forRoot(),
+    NotificationModule,
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: configService.get('MAIL_HOST'),
+          port: configService.get('MAIL_PORT'),
+          secure: false,
+          auth: {
+            user: configService.get('MAIL_USER'),
+            pass: configService.get('MAIL_PASSWORD'),
+          },
+        },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
