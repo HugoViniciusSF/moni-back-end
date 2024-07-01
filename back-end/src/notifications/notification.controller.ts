@@ -7,6 +7,11 @@ export class NotificationController {
 
   @Post('email')
   async sendEmail(@Body() { to, subject, body }: { to: string; subject: string; body: string }): Promise<void> {
-    await this.notificationService.sendNotification(to, subject, body);
+    await this.notificationService.sendEmailNotification(to, subject, body);
+  }
+
+  @Post('sms')
+  async sendSms(@Body() { to, subject, body }: { to: string; subject: string; body: string }): Promise<void> {
+    await this.notificationService.sendSmsNotification(to, subject, body);
   }
 }
