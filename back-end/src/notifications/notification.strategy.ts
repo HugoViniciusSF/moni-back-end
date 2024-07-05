@@ -1,3 +1,4 @@
 export interface NotificationStrategy {
-    send(to: string, subject: string, body: string): Promise<void>;
-  }
+  getName(): string;
+  send(to: string, subject: string, body: string): Promise<void>;
+}

@@ -10,6 +10,10 @@ export class SmsNotificationStrategy implements NotificationStrategy {
     this.client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
   }
 
+  getName(): string {
+    return 'sms';
+  }
+
   async send(to: string, subject: string, body: string): Promise<void> {
     await this.client.messages.create({
       body: `${subject}\n\n${body}`,

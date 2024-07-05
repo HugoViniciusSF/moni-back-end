@@ -5,13 +5,10 @@ import { NotificationService } from './notification.service';
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Post('email')
-  async sendEmail(@Body() { to, subject, body }: { to: string; subject: string; body: string }): Promise<void> {
-    await this.notificationService.sendEmailNotification(to, subject, body);
-  }
-
-  @Post('sms')
-  async sendSms(@Body() { to, subject, body }: { to: string; subject: string; body: string }): Promise<void> {
-    await this.notificationService.sendSmsNotification(to, subject, body);
+  @Post()
+  async sendNotification(
+    @Body() { to, subject, body, strategy }: { to: string; subject: string; body: string; strategy: string },
+  ): Promise<void> {
+    await this.notificationService.sendNotification(to, subject, body, strategy);
   }
 }

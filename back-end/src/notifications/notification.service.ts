@@ -3,16 +3,13 @@ import { NotificationStrategy } from './notification.strategy';
 
 @Injectable()
 export class NotificationService {
-  constructor(
-    @Inject('EmailNotificationStrategy') private readonly emailStrategy: NotificationStrategy,
-    @Inject('SmsNotificationStrategy') private readonly smsStrategy: NotificationStrategy,
-  ) {}
+  constructor(@Inject('NotificationStrategies') private readonly strategies: NotificationStrategy[]) {}
 
-  async sendEmailNotification(to: string, subject: string, body: string): Promise<void> {
-    await this.emailStrategy.send(to, subject, body);
-  }
-
-  async sendSmsNotification(to: string, subject: string, body: string): Promise<void> {
-    await this.smsStrategy.send(to, subject, body);
+  async sendNotification(to: string, subject: string, body: string, strategy: string): Promise<void> {
+    const selectedStrategy = this.strategies.find((s) => s.getName() === strategy);
+    if (!selectedStrategy) {
+      throw new Error(`Notification strategy '${strategy}' not found.`);
+    }
+    await selectedStrategy.send(to, subject, body);
   }
 }

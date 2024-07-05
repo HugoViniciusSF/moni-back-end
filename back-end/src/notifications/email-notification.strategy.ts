@@ -6,6 +6,10 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class EmailNotificationStrategy implements NotificationStrategy {
   constructor(private readonly mailerService: MailerService) {}
 
+  getName(): string {
+    return 'email';
+  }
+
   async send(to: string, subject: string, body: string): Promise<void> {
     await this.mailerService.sendMail({
       to,
