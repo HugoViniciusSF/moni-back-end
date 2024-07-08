@@ -4,6 +4,7 @@ import { UpdateJogosDto } from './dto/update-jogos.dto';
 import { Jogos } from './entities/jogos.entity';
 import { JogosRepository } from './repo/jogos.repository';
 import { BadRequestException } from '@nestjs/common';
+import { EntityServiceInterface } from '../entities/entity.service';
 export interface JogosServiceInterface {
   findAll(): Promise<Jogos[]>
   findOne(id: string): Promise<Jogos | null>
@@ -13,10 +14,10 @@ export interface JogosServiceInterface {
 }
 
 @Injectable()
-export class JogosService implements JogosServiceInterface{
+export class JogosService implements EntityServiceInterface {
   constructor(
     private jogosRepository: JogosRepository,
-  ) {}
+  ) { }
 
   findAll(): Promise<Jogos[]> {
     return this.jogosRepository.findAll();
@@ -25,35 +26,35 @@ export class JogosService implements JogosServiceInterface{
   async findOne(id: string): Promise<Jogos | null> {
     return this.jogosRepository.findOneBy({ id });
   }
-  
+
   async create(createJogosDto: CreateJogosDto): Promise<Jogos> {
 
     createJogosDto = validateInput(createJogosDto);
 
     return await this.jogosRepository.create(createJogosDto);
   }
-  
+
   async update(id: string, updateJogosDto: UpdateJogosDto): Promise<void> {
-    try{
+    try {
       const result = await this.jogosRepository.update(id, updateJogosDto);
       console.log(result);
-      if(result.affected === 0){
+      if (result.affected === 0) {
         throw new HttpException('Jogo não encontrado', HttpStatus.NOT_FOUND);
       }
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar atualizar o jogo',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   async delete(id: string): Promise<void> {
-    try{
-      await this.jogosRepository.delete(id); 
+    try {
+      await this.jogosRepository.delete(id);
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar deletar o jogo',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
@@ -80,7 +81,8 @@ function validateInput(createJogosDto: CreateJogosDto): CreateJogosDto {
     throw new BadRequestException('A URL da foto é inválida');
   }
 
-  return { ...createJogosDto,
+  return {
+    ...createJogosDto,
   };
 
 }
