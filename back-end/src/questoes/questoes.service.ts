@@ -4,19 +4,14 @@ import { UpdateQuestoesDto } from './dto/update-questoes.dto';
 import { Questoes } from './entities/questoes.entity';
 import { QuestoesRepository } from './repo/questoes.repository';
 import { BadRequestException } from '@nestjs/common';
-export interface QuestoesServiceInterface {
-  findAll(): Promise<Questoes[]>
-  findOne(id: string): Promise<Questoes | null>
-  delete(id: string): Promise<void>
-  create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes>
-  update(id: string, updateQuestoesDto: UpdateQuestoesDto): Promise<void>
-}
+import { EntityServiceInterface } from '../entities/entity.service';
+
 
 @Injectable()
-export class QuestoesService implements QuestoesServiceInterface{
+export class QuestoesService implements EntityServiceInterface {
   constructor(
     private questoesRepository: QuestoesRepository,
-  ) {}
+  ) { }
 
   findAll(): Promise<Questoes[]> {
     return this.questoesRepository.findAll();
@@ -25,35 +20,35 @@ export class QuestoesService implements QuestoesServiceInterface{
   async findOne(id: string): Promise<Questoes | null> {
     return this.questoesRepository.findOneBy({ id });
   }
-  
+
   async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
 
     createQuestoesDto = validateInput(createQuestoesDto);
 
     return await this.questoesRepository.create(createQuestoesDto);
   }
-  
+
   async update(id: string, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
-    try{
+    try {
       const result = await this.questoesRepository.update(id, updateQuestoesDto);
       console.log(result);
-      if(result.affected === 0){
+      if (result.affected === 0) {
         throw new HttpException('Questão não encontrada', HttpStatus.NOT_FOUND);
       }
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar atualizar a questão',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   async delete(id: string): Promise<void> {
-    try{
-      await this.questoesRepository.delete(id); 
+    try {
+      await this.questoesRepository.delete(id);
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar deletar a questão',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
@@ -80,7 +75,8 @@ function validateInput(createQuestoesDto: CreateQuestoesDto): CreateQuestoesDto 
     throw new BadRequestException('A URL da foto é inválida');
   }
 
-  return { ...createQuestoesDto,
+  return {
+    ...createQuestoesDto,
   };
 
 }
