@@ -20,7 +20,7 @@ export class InfoGatheringFacadeNoticias implements InfoGatheringFacade {
           params: {
             q: query,
             apiKey: this.apiKey,
-            language: 'pt', // Definir o idioma desejado para as notícias
+            language: 'pt',
           },
         }
       );
@@ -29,7 +29,7 @@ export class InfoGatheringFacadeNoticias implements InfoGatheringFacade {
       console.log("Data received from News API:", data);
 
       data.articles.forEach((article) => {
-        const id = article.url; // Usar a URL como identificador único
+        const id = article.url; 
         const nome = article.title;
         const imagemURL = article.urlToImage;
         const descricao = article.description;

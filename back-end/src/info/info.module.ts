@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { InfoController } from './info.controller';
 import { InfoServiceProvider } from './info.service';
 import { HttpModule } from '@nestjs/axios';
-import { InfoGatheringFacadeProviderJogos } from './providers/info.gathering.facade.jogos';
+import { InfoGatheringFacadeProviderJogos } from './providers/info.gathering.service.jogos';
 import { ConfigModule } from '@nestjs/config';
-import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.facade.questoes';
-import { InfoGatheringFacadeProviderNoticias } from './providers/info.gathering.facade.noticias';
+import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.service.questoes';
+import { InfoGatheringFacadeProviderNoticias } from './providers/info.gathering.service.noticias';
 
 @Module({
   imports: [
