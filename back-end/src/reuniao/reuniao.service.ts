@@ -4,19 +4,13 @@ import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { Reuniao } from './entities/reuniao.entity';
 import { ReuniaoRepository } from './repo/reuniao.repository';
 import { BadRequestException } from '@nestjs/common';
-export interface ReuniaoServiceInterface {
-  findAll(): Promise<Reuniao[]>
-  findOne(id: string): Promise<Reuniao | null>
-  delete(id: string): Promise<void>
-  create(createReunioesDto: CreateReuniaoDto): Promise<Reuniao>
-  update(id: string, updateReunioesDto: UpdateReuniaoDto): Promise<void>
-}
+import { EntityServiceInterface } from '../entities/entity.service';
 
 @Injectable()
-export class ReuniaoService implements ReuniaoServiceInterface{
+export class ReuniaoService implements EntityServiceInterface {
   constructor(
     private reuniaoRepository: ReuniaoRepository,
-  ) {}
+  ) { }
 
   findAll(): Promise<Reuniao[]> {
     return this.reuniaoRepository.findAll();
@@ -25,35 +19,35 @@ export class ReuniaoService implements ReuniaoServiceInterface{
   async findOne(id: string): Promise<Reuniao | null> {
     return this.reuniaoRepository.findOneBy({ id });
   }
-  
+
   async create(createReuniaoDto: CreateReuniaoDto): Promise<Reuniao> {
 
     createReuniaoDto = validateInput(createReuniaoDto);
 
     return await this.reuniaoRepository.create(createReuniaoDto);
   }
-  
+
   async update(id: string, updateReuniaoDto: UpdateReuniaoDto): Promise<void> {
-    try{
+    try {
       const result = await this.reuniaoRepository.update(id, updateReuniaoDto);
       console.log(result);
-      if(result.affected === 0){
+      if (result.affected === 0) {
         throw new HttpException('Reunião não encontrada', HttpStatus.NOT_FOUND);
       }
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar atualizar a reunião',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   async delete(id: string): Promise<void> {
-    try{
-      await this.reuniaoRepository.delete(id); 
+    try {
+      await this.reuniaoRepository.delete(id);
     }
-    catch(error){
+    catch (error) {
       throw new HttpException('Erro ao tentar deletar a reunião',
-      HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
@@ -80,7 +74,8 @@ function validateInput(createReuniaoDto: CreateReuniaoDto): CreateReuniaoDto {
     throw new BadRequestException('A URL da foto é inválida');
   }
 
-  return { ...createReuniaoDto,
+  return {
+    ...createReuniaoDto,
   };
 
 }
