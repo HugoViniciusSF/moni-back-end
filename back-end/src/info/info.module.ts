@@ -4,9 +4,8 @@ import { InfoServiceProvider } from './info.service';
 import { HttpModule } from '@nestjs/axios';
 
 import { ConfigModule } from '@nestjs/config';
-import { InfoGatheringFacadeProviderNoticias } from './providers/info.gathering.service.noticias';
-import { InfoGatheringFacadeProviderJogos } from './providers/info.gathering.service.jogos';
-import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.service.questoes';
+import { InfoGatheringFacadeProviderQuestoes } from './providers/info.gathering.facade.questoes';
+import { InfoGatheringFacadeProviderNoticias } from './providers/info.gathering.facade.noticias';
 
 @Module({
   imports: [
