@@ -21,6 +21,7 @@ export class InfoGatheringFacadeNoticias implements InfoGatheringFacade {
             q: query,
             apiKey: this.apiKey,
             language: 'pt', // Definir o idioma desejado para as notícias
+            pageSize: 20, 
           },
         }
       );
@@ -49,6 +50,6 @@ export class InfoGatheringFacadeNoticias implements InfoGatheringFacade {
 }
 
 export const InfoGatheringFacadeProviderNoticias: Provider = {
-    provide: InfoGatheringFacade,
-    useClass: InfoGatheringFacadeNoticias,
-  };
+  provide: InfoGatheringFacade,
+  useClass: InfoGatheringFacadeNoticias,
+};
