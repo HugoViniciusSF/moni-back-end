@@ -1,17 +1,6 @@
 import { IsString, IsNotEmpty } from "class-validator";
-export class CreateJogosDto {
-    @IsNotEmpty()
-    @IsString()
-    readonly nome: string;
-
-    @IsNotEmpty()
-    @IsString()
-    readonly fotoURL: string;
-
-    @IsNotEmpty()
-    @IsString()
-    readonly descricao: string;
-
+import { CreateBaseEntityDto } from "src/entities/dto/create-entity.dto";
+export class CreateJogosDto extends CreateBaseEntityDto {
     @IsNotEmpty()
     @IsString()
     readonly genero: string;

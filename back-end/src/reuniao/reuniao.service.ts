@@ -21,10 +21,15 @@ export class ReuniaoService implements EntityServiceInterface {
   }
 
   async create(createReuniaoDto: CreateReuniaoDto): Promise<Reuniao> {
-
-    createReuniaoDto = validateInput(createReuniaoDto);
-
-    return await this.reuniaoRepository.create(createReuniaoDto);
+    try {
+      if (this.validateInput(createReuniaoDto)) {
+        return this.reuniaoRepository.create(createReuniaoDto);
+      }
+    }
+    catch (BadRequestException) {
+      throw new HttpException('Erro ao tentar criar a reunião',
+        HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   async update(id: string, updateReuniaoDto: UpdateReuniaoDto): Promise<void> {
@@ -50,6 +55,22 @@ export class ReuniaoService implements EntityServiceInterface {
         HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  validateInput(createReuniaoDto: CreateReuniaoDto): boolean {
+    // Exemplo de validação simples
+    if (!createReuniaoDto.nome || createReuniaoDto.nome.trim().length === 0) {
+      throw new BadRequestException('O nome é obrigatório.');
+    }
+
+    if (!createReuniaoDto.descricao || createReuniaoDto.descricao.trim().length === 0) {
+      throw new BadRequestException('O conteúdo é obrigatório.');
+    }
+    if (!createReuniaoDto.fotoURL || !isValidHttpsUrl(createReuniaoDto.fotoURL)) {
+      throw new BadRequestException('A URL da foto é inválida');
+    }
+
+    return true;
+  }
 }
 
 function isValidHttpsUrl(url: string): boolean {
@@ -59,23 +80,4 @@ function isValidHttpsUrl(url: string): boolean {
   } catch (e) {
     return false;
   }
-}
-
-function validateInput(createReuniaoDto: CreateReuniaoDto): CreateReuniaoDto {
-  // Exemplo de validação simples
-  if (!createReuniaoDto.nome || createReuniaoDto.nome.trim().length === 0) {
-    throw new BadRequestException('O nome é obrigatório.');
-  }
-
-  if (!createReuniaoDto.descricao || createReuniaoDto.descricao.trim().length === 0) {
-    throw new BadRequestException('O conteúdo é obrigatório.');
-  }
-  if (!createReuniaoDto.fotoURL || !isValidHttpsUrl(createReuniaoDto.fotoURL)) {
-    throw new BadRequestException('A URL da foto é inválida');
-  }
-
-  return {
-    ...createReuniaoDto,
-  };
-
 }

@@ -8,4 +8,5 @@ export interface EntityServiceInterface {
     delete(id: string): Promise<void>
     create(createBaseEntityDto: CreateBaseEntityDto): Promise<BaseEntity>
     update(id: string, updateBaseEntityDto: UpdateBaseEntityDto): Promise<void>
+    validateInput(createBaseEntityDto: any): boolean
 }

@@ -5,6 +5,8 @@ import { Jogos } from './entities/jogos.entity';
 import { JogosRepository } from './repo/jogos.repository';
 import { BadRequestException } from '@nestjs/common';
 import { EntityServiceInterface } from '../entities/entity.service';
+import { CreateBaseEntityDto } from 'src/entities/dto/create-entity.dto';
+import { AnyARecord } from 'dns';
 export interface JogosServiceInterface {
   findAll(): Promise<Jogos[]>
   findOne(id: string): Promise<Jogos | null>
@@ -28,10 +30,15 @@ export class JogosService implements EntityServiceInterface {
   }
 
   async create(createJogosDto: CreateJogosDto): Promise<Jogos> {
-
-    createJogosDto = validateInput(createJogosDto);
-
-    return await this.jogosRepository.create(createJogosDto);
+    try {
+      if (this.validateInput(createJogosDto)) {
+        return this.jogosRepository.create(createJogosDto);
+      }
+    }
+    catch (BadRequestException) {
+      throw new HttpException('Erro ao tentar criar o jogo',
+        HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   async update(id: string, updateJogosDto: UpdateJogosDto): Promise<void> {
@@ -57,6 +64,22 @@ export class JogosService implements EntityServiceInterface {
         HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  validateInput(createJogosDto: CreateJogosDto): boolean {
+    if (!createJogosDto.nome || createJogosDto.nome.trim().length === 0) {
+      throw new BadRequestException('O nome é obrigatório.');
+    }
+
+    if (!createJogosDto.descricao || createJogosDto.descricao.trim().length === 0) {
+      throw new BadRequestException('O conteúdo é obrigatório.');
+    }
+
+    if (!createJogosDto.fotoURL || !isValidHttpsUrl(createJogosDto.fotoURL)) {
+      throw new BadRequestException('A URL da foto é inválida');
+    }
+
+    return true;
+  }
 }
 
 function isValidHttpsUrl(url: string): boolean {
@@ -66,23 +89,4 @@ function isValidHttpsUrl(url: string): boolean {
   } catch (e) {
     return false;
   }
-}
-
-function validateInput(createJogosDto: CreateJogosDto): CreateJogosDto {
-  // Exemplo de validação simples
-  if (!createJogosDto.nome || createJogosDto.nome.trim().length === 0) {
-    throw new BadRequestException('O nome é obrigatório.');
-  }
-
-  if (!createJogosDto.descricao || createJogosDto.descricao.trim().length === 0) {
-    throw new BadRequestException('O conteúdo é obrigatório.');
-  }
-  if (!createJogosDto.fotoURL || !isValidHttpsUrl(createJogosDto.fotoURL)) {
-    throw new BadRequestException('A URL da foto é inválida');
-  }
-
-  return {
-    ...createJogosDto,
-  };
-
 }

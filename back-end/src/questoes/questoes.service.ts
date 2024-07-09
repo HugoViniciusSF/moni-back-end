@@ -22,10 +22,15 @@ export class QuestoesService implements EntityServiceInterface {
   }
 
   async create(createQuestoesDto: CreateQuestoesDto): Promise<Questoes> {
-
-    createQuestoesDto = validateInput(createQuestoesDto);
-
-    return await this.questoesRepository.create(createQuestoesDto);
+    try {
+      if (this.validateInput(createQuestoesDto)) {
+        return this.questoesRepository.create(createQuestoesDto);
+      }
+    }
+    catch (BadRequestException) {
+      throw new HttpException('Erro ao tentar criar a questão',
+        HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   async update(id: string, updateQuestoesDto: UpdateQuestoesDto): Promise<void> {
@@ -51,6 +56,21 @@ export class QuestoesService implements EntityServiceInterface {
         HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  validateInput(createQuestoesDto: CreateQuestoesDto): boolean {
+    if (!createQuestoesDto.nome || createQuestoesDto.nome.trim().length === 0) {
+      throw new BadRequestException('O nome é obrigatório.');
+    }
+
+    if (!createQuestoesDto.descricao || createQuestoesDto.descricao.trim().length === 0) {
+      throw new BadRequestException('O conteúdo é obrigatório.');
+    }
+    if (!createQuestoesDto.fotoURL || !isValidHttpsUrl(createQuestoesDto.fotoURL)) {
+      throw new BadRequestException('A URL da foto é inválida');
+    }
+
+    return true;
+  }
 }
 
 function isValidHttpsUrl(url: string): boolean {
@@ -60,23 +80,4 @@ function isValidHttpsUrl(url: string): boolean {
   } catch (e) {
     return false;
   }
-}
-
-function validateInput(createQuestoesDto: CreateQuestoesDto): CreateQuestoesDto {
-  // Exemplo de validação simples
-  if (!createQuestoesDto.nome || createQuestoesDto.nome.trim().length === 0) {
-    throw new BadRequestException('O nome é obrigatório.');
-  }
-
-  if (!createQuestoesDto.descricao || createQuestoesDto.descricao.trim().length === 0) {
-    throw new BadRequestException('O conteúdo é obrigatório.');
-  }
-  if (!createQuestoesDto.fotoURL || !isValidHttpsUrl(createQuestoesDto.fotoURL)) {
-    throw new BadRequestException('A URL da foto é inválida');
-  }
-
-  return {
-    ...createQuestoesDto,
-  };
-
 }
