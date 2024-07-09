@@ -14,6 +14,10 @@ import { InfoModule } from './info/info.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { NotificationModule } from './notifications/notification.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -25,7 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       type: 'sqlite',
       database: 'db/sql',
       synchronize: true,
-      entities: [Questoes, Jogos, Reuniao, InfoData],
+      entities: [Questoes, Jogos, Reuniao, InfoData, User],
     }),
     HttpModule,
     ConfigModule.forRoot(),
@@ -45,8 +49,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+    UserModule,
+    AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
