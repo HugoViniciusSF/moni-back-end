@@ -52,7 +52,7 @@ import { User } from './user/entities/user.entity';
     UserModule,
     AuthModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
