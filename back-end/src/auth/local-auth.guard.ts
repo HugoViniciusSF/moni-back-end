@@ -7,11 +7,4 @@ export class LocalAuthGuard extends AuthGuard('local') {
         const result = (await super.canActivate(context)) as boolean;
         return result;
     }
-
-    handleRequest(err, user, info) {
-        if (err || !user) {
-            throw err || new UnauthorizedException();
-        }
-        return user;
-    }
 }
